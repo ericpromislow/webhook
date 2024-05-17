@@ -23,7 +23,7 @@ if [ -e ${DOCKERFILE}.${ARCH} ]; then
 fi
 
 if [[ ${USE_DOCKER_BUILDX:-0} -eq 1 ]]; then
-    docker buildx build --platform linux/amd64 -f ${DOCKERFILE} . -t ${IMAGE} 
+    docker buildx build --platform linux/amd64 -f ${DOCKERFILE} . -t ${IMAGE}
 else
     docker build -f ${DOCKERFILE} -t ${IMAGE} .
 fi

@@ -90,12 +90,3 @@ jobs:
           CLUSTER_NAME: webhook
           IMAGE_REPO: rancher/webhook
           IMAGE_TAG: "${{ env.IMAGE_TAG }}"
-
-      - name: Rerun integration tests one more time if they failed the first time
-        if: steps.integrationTests.outcome == 'failure'
-        run: ./.github/workflows/scripts/integration-test-ci
-        env:
-          ARCH: "${{ matrix.archBox.arch }}"
-          CLUSTER_NAME: webhook
-          IMAGE_REPO: rancher/webhook
-          IMAGE_TAG: "${{ env.IMAGE_TAG }}"

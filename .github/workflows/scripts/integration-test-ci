@@ -53,7 +53,7 @@ set +e
 
 try --max 3 --delay 2 --waitmsg "Upgrading Webhook" --failmsg "Failed to upgrade webhook" upgrade_rancher_webhook
 
-x=$(kubectl get pods -n cattle-system -l app=rancher-webhook | grep -v -e Running -e NAME | awk '{print $1}')
+x=$(kubectl get pods -n cattle-system -l app=rancher-webhook --no-headers --field-selector='status.phase!=RUNNING' --output custom-columns=NODE:.metadata.name | head -n 1)
 if [ -n "$x" ] ; then
   echo "Logs for failed rancher-webhook $x ":
   kubectl get pods -n cattle-system -l app=rancher-webhook
