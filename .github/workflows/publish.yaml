@@ -3,7 +3,7 @@ name : Publish Webhook Images
 on:
   push:
     tags:
-      - "*"
+      - release/v*
 
 env:
   REGISTRY: docker.io
