@@ -44,7 +44,7 @@ jobs:
           tar cfz "${{ runner.temp }}/rancher.tgz" -C build/chart/rancher .
           popd
 
-      - run: echo "base_ref: ${{ github.base_ref }}, head_ref: ${{ github.head_ref }}, ref_name: ${{github.ref_name}" && exit 1
+      - run: echo "base_ref: ${{ github.base_ref }}, head_ref: ${{ github.head_ref }}, ref_name: ${{github.ref_name}}" && exit 1
         name: wip debug
 
       - run: make ci
