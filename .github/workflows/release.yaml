@@ -14,9 +14,8 @@ jobs:
     permissions:
       contents: read
   goreleaser:
-    needs: [
-      ci
-    ]
+    needs:
+      - ci
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -1,4 +1,4 @@
-name : Publish Webhook Images
+name: Publish Webhook Images
 
 on:
   push:
@@ -7,30 +7,29 @@ on:
 
 env:
   REGISTRY: docker.io
-  REPO : rancher
+  REPO: rancher
 
 jobs:
-  ci :
+  ci:
     uses: rancher/webhook/.github/workflows/ci.yaml@release/v0.5
     permissions:
       contents: read
   push:
-    needs : [
-      ci
-    ]
+    needs:
+      - ci
     permissions:
-      contents : read
+      contents: read
       id-token: write
-    name : Build and push Webhook images
-    runs-on : ubuntu-latest
+    name: Build and push Webhook images
+    runs-on: ubuntu-latest
     steps:
-      - name : "Read vault secrets"
-        uses : rancher-eio/read-vault-secrets@main
+      - name: "Read vault secrets"
+        uses: rancher-eio/read-vault-secrets@main
         with:
           secrets: |
             secret/data/github/repo/${{ github.repository }}/dockerhub/rancher/credentials username | DOCKER_USERNAME ;
             secret/data/github/repo/${{ github.repository }}/dockerhub/rancher/credentials password | DOCKER_PASSWORD
-      - name : Checkout repository
+      - name: Checkout repository
         uses: actions/checkout@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
