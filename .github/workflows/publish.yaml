@@ -11,7 +11,7 @@ env:
 
 jobs:
   ci:
-    uses: rancher/webhook/.github/workflows/ci.yaml@release/v0.5
+    uses: rancher/webhook/.github/workflows/ci.yaml@${{github.base_ref}}
     permissions:
       contents: read
   push:
