@@ -31,8 +31,9 @@ jobs:
           # TODO: See wrangler for an example of how to run tests on arm64, not ready here
           # - arm64
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name : Checkout repository
+        # https://github.com/actions/checkout/releases/tag/v4.1.1
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       # TODO: Pull this next one out once there's a helm-release for rancher 2.9
       - name: Checkout rancher/rancher and build the chart
