@@ -13,25 +13,47 @@ jobs:
     uses: rancher/webhook/.github/workflows/ci.yaml@${{github.base_ref}}
     permissions:
       contents: read
-  goreleaser:
-    needs:
-      - ci
     runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+          arch:
+          - amd64
+          - arm64
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        # https://github.com/actions/checkout/releases/tag/v4.1.1
-        with:
-          fetch-tags: true
-      - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
-        # https://github.com/actions/setup-go/releases/tag/v5.0.0
-        with:
-          go-version-file: 'go.mod'
-      - name: Package release helm charts
-        run: make package-helm && mkdir -p ./build/artifacts/ && mv -v ./dist/artifacts/ ./build/
-      - uses: goreleaser/goreleaser-action@v5
-        with:
-          distribution: goreleaser
-          version: latest
-          args: release --clean
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+       # https://github.com/actions/checkout/releases/tag/v4.1.1
+      with:
+        fetch-tags: true
+    - uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491 # v5.0.0
+       # https://github.com/actions/setup-go/releases/tag/v5.0.0
+      with:
+        go-version-file: 'go.mod'
+    - name: Package release helm charts
+      run: make package-helm && mkdir -p ./build/artifacts/ && mv -v ./dist/artifacts/ ./build/
+
+    - name: Build and package
+      run: make build package package-helm
+      env:
+        ARCH: ${{ matrix.arch}}
+
+    - name: Get the version
+      run: |
+        source ./scripts/version
+        echo "VERSION=$VERSION"
+        echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+    - name: Generate checksum files
+      run: |
+        ls -lR dist
+        cd dist/artifacts
+        sha256sum webhook-linux-${{ matrix.arch}} > sha256sum-${{ matrix.arch}}.txt
+
+  release:
+    - name: Upload everything
+      run: |
+        ls -lR dist
+        cd dist/artifacts
+        gh release upload $VERSION webhook-linux-* sha256sum-*.txt rancher-webhook*.tgz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
