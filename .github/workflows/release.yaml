@@ -9,12 +9,8 @@ permissions:
   contents: write
 
 jobs:
-  ci:
-    uses: rancher/webhook/.github/workflows/ci.yaml@${{github.base_ref}}
-    permissions:
-      contents: read
-    runs-on: ubuntu-latest
   build:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
           arch:
@@ -50,6 +46,8 @@ jobs:
         sha256sum webhook-linux-${{ matrix.arch}} > sha256sum-${{ matrix.arch}}.txt
 
   release:
+    runs-on: ubuntu-latest
+    steps:
     - name: Upload everything
       run: |
         ls -lR dist
