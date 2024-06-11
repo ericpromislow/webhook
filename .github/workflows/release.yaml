@@ -30,9 +30,7 @@ jobs:
         go-version-file: 'go.mod'
 
     - name: Build and package
-      run: make build package package-helm
-      env:
-        ARCH: ${{ matrix.arch}}
+      run: ARCH=${{ matrix.arch}} make build package package-helm
 
     - name: Get the version
       run: |
@@ -46,14 +44,25 @@ jobs:
         cd dist/artifacts
         sha256sum webhook-linux-${{ matrix.arch}} > sha256sum-${{ matrix.arch}}.txt
 
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: webhook-artifacts-${{ matrix.arch}}
+        path: dist/artifacts
+
   release:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Download the artifacts
+    - name: Download the amd64 artifacts
       uses: actions/download-artifact@v2
       with:
-        name: ${{ env.ARTIFACT_NAME }}
+        name: ${{ env.ARTIFACT_NAME }}-amd64
+        path: dist/artifacts
+    - name: Download the arm64 artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{ env.ARTIFACT_NAME }}-arm64
         path: dist/artifacts
     - name: Upload the files
       run: |
