@@ -1,4 +1,4 @@
-name: goreleaser
+name: release
 
 on:
   push:
@@ -10,6 +10,7 @@ permissions:
 
 jobs:
   build:
+    name: build and package
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,7 +18,8 @@ jobs:
           - amd64
           - arm64
     steps:
-    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+    - name : Checkout repository
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
        # https://github.com/actions/checkout/releases/tag/v4.1.1
       with:
         fetch-tags: true
