@@ -46,6 +46,7 @@ jobs:
         sha256sum webhook-linux-${{ matrix.arch}} > sha256sum-${{ matrix.arch}}.txt
 
   release:
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Download the artifacts
