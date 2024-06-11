@@ -62,12 +62,12 @@ jobs:
     - name: Download the amd64 artifacts
       uses: actions/download-artifact@v2
       with:
-        name: ${{ env.ARTIFACT_NAME }}-amd64
+        name: webhook-artifacts-amd64
         path: dist/artifacts
     - name: Download the arm64 artifacts
       uses: actions/download-artifact@v2
       with:
-        name: ${{ env.ARTIFACT_NAME }}-arm64
+        name: webhook-artifacts-arm64
         path: dist/artifacts
     - name: Upload the files
       run: |
