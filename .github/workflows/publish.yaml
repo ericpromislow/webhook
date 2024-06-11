@@ -11,7 +11,9 @@ env:
 
 jobs:
   ci:
-    uses: rancher/webhook/.github/workflows/ci.yaml@${{github.base_ref}}
+    uses: rancher/webhook/.github/workflows/ci.yaml@release/v0.5
+    #  Putting this after the '@' failed ( ${{github.base_ref}} )
+    # failed to fetch workflow: reference to workflow should be either a valid branch, tag, or commit
     permissions:
       contents: read
   push:
