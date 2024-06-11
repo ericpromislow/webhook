@@ -30,7 +30,9 @@ jobs:
         go-version-file: 'go.mod'
 
     - name: Build and package
-      run: ARCH=${{ matrix.arch}} make build package package-helm
+      run: ./scripts/build && ./scripts/package && ./scripts/package-helm
+      env:
+        ARCH:${{ matrix.arch}}
 
     - name: Get the version
       run: |
