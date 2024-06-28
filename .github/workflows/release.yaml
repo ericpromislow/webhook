@@ -75,8 +75,8 @@ jobs:
         path: dist/artifacts
 
     - name: Set the env
-        run: |
-          echo VERSION=0.6.1 >> $GITHUB_ENV
+      run: |
+        echo VERSION=0.6.1 >> $GITHUB_ENV
     - name: Upload the files
       run: |
         ls -lR dist
