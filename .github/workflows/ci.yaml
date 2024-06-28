@@ -80,11 +80,7 @@ jobs:
         run: cat dist/image_tag >> $GITHUB_ENV
 
       - name: Run integration tests
-        id: integrationTests
         run: ./.github/workflows/scripts/integration-test-ci
-        # See https://docs.github.com/en/actions/learn-github-actions/contexts#steps-context
-        # for explanation of steps.continue-on-error and steps.ID.outcome
-        continue-on-error: true
         env:
           ARCH: "${{ matrix.archBox.arch }}"
           CLUSTER_NAME: webhook
