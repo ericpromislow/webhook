@@ -73,6 +73,10 @@ jobs:
       with:
         name: webhook-artifacts-arm64
         path: dist/artifacts
+
+    - name: Set the env
+        run: |
+          echo VERSION=0.6.1 >> $GITHUB_ENV
     - name: Upload the files
       run: |
         ls -lR dist
@@ -80,3 +84,5 @@ jobs:
         gh --repo ericpromislow/webhook release create ${{ github.ref_name}}-${{ env.VERSION }} --prerelease --generate-notes webhook-linux-* sha256sum-*.txt rancher-webhook*.tgz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# --verify-tag
