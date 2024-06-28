@@ -31,7 +31,10 @@ jobs:
         go-version-file: 'go.mod'
 
     - name: Build and package
-      run: ./scripts/build
+      run: |
+          ./scripts/build
+          mkdir -p dist/artifacts
+          cp bin/webhook dist/artifacts/webhook-linux-${{ matrix.archBox.arch }}
       env:
         ARCH: "${{ matrix.archBox.arch}}"
         GOARCH: "${{ matrix.archBox.arch}}"
