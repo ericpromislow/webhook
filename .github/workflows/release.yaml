@@ -61,6 +61,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name : Checkout repository
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+       # https://github.com/actions/checkout/releases/tag/v4.1.1
     - name: Download the amd64 artifacts
       # https://github.com/actions/download-artifact/commit/65a9edc5881444af0b9093a5e628f2fe47ea3b2e
       uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
