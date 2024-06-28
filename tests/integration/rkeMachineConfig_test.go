@@ -11,6 +11,8 @@ import (
 
 func (m *IntegrationSuite) TestRKEMachineConfig() {
 	if runtime.GOARCH == "arm64" && os.Getenv("CI") != "" {
+		// Temporarily workaround https://github.com/rancher/rancher/issues/45837 :
+		// Not all CRDs are built in GHA/arm64
 		m.T().Skip("Skipping the RKE Machine-Config test on arm64 in CI -- machine info not available")
 	}
 	objGVK := schema.GroupVersionKind{
