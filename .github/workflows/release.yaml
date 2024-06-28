@@ -80,6 +80,6 @@ jobs:
       run: |
         ls -lR dist
         cd dist/artifacts
-        gh release upload $VERSION webhook-linux-* sha256sum-*.txt rancher-webhook*.tgz
+        gh release create ${{ github.ref_name}}-${{ env.VERSION }} --prerelease --verify-tag --generate-notes webhook-linux-* sha256sum-*.txt rancher-webhook*.tgz
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
