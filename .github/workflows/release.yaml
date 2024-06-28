@@ -65,8 +65,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: package
-      run: ./scripts/package && ./scripts/package-helm
+    - name: package-helm
+      run: ./scripts/package-helm
     - name: Download the amd64 artifacts
       # https://github.com/actions/download-artifact/commit/65a9edc5881444af0b9093a5e628f2fe47ea3b2e
       uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
